@@ -302,7 +302,7 @@ Confucius4-TTS achieves competitive results on multilingual and cross-lingual ze
 
 ## Acknowledgements
 
-Confuciussee4-TTS builds on the following open-source projects:
+Confucius4-TTS builds on the following open-source projects:
 
 - **[Qwen3-TTS](https://github.com/QwenLM/Qwen3-TTS)** — Speaker encoder (ECAPA-TDNN) and text embedding projector architectures
 - **[CosyVoice](https://github.com/FunAudioLLM/CosyVoice)** — Text normalization pipeline
