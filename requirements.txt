@@ -32,6 +32,7 @@ regex==2026.3.32
 jaconv==0.5.0
 pykakasi==2.3.0
 ema-pytorch==0.7.9
+wetext==0.1.4
 
 # ==================== Configuration & Utilities ====================
 PyYAML==6.0.3
