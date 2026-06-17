@@ -33,6 +33,30 @@ Confucius4-TTS is an advanced LLM-based text-to-speech (TTS) system designed for
 
 With strong cross-lingual generalization, Confucius4-TTS allows users to seamlessly switch languages while keeping the same voice, delivering fluent, natural, and expressive speech.
 
+<div align="center">
+
+Video Demo
+
+<table border="0">
+  <tr>
+    <td>
+      <video src="https://github.com/user-attachments/assets/2e2a4fc2-c8ef-4f12-89f7-55a6221200f1" controls width="100%"></video>
+    </td>
+    <td>
+      <video src="https://github.com/user-attachments/assets/dacd356d-3bf5-4b06-9a2c-6ad5c24eb035" controls width="100%"></video>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <video src="https://github.com/user-attachments/assets/e00ae5e1-fbb0-4137-af13-dd53599196a5" controls width="100%"></video>
+    </td>
+    <td>
+      <video src="https://github.com/user-attachments/assets/8d382707-ba99-4bf3-9866-13d339db490f" controls width="100%"></video>
+    </td>
+  </tr>
+</table>
+</div>
+
 ## Contents
 
 - [Installation](#-installation)
