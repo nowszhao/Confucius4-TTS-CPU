@@ -63,6 +63,7 @@ class Text2SemanticConfig(PretrainedConfig):
     ):
         super().__init__(**kwargs)
         self.num_layers = num_layers
+        self.num_hidden_layers = num_layers  # Required by transformers >= 5.x
         self.model_dim = model_dim
         self.num_heads = num_heads
         self.max_text_seq_lens = max_text_seq_lens
@@ -355,10 +356,17 @@ class Text2Semantic(PreTrainedModel, GenerationMixin):
         Returns:
             Dict with model inputs for next generation step
         """
+        from transformers.cache_utils import DynamicCache
         attention_mask = kwargs.get("attention_mask", None)
 
-        if past_key_values:
-            # Use only last token when KV cache is available
+        has_cache = False
+        if past_key_values is not None:
+            if isinstance(past_key_values, DynamicCache):
+                has_cache = past_key_values.get_seq_length() > 0
+            else:
+                has_cache = bool(past_key_values)
+
+        if has_cache:
             input_ids = input_ids[:, -1:]
 
         return {
@@ -373,12 +381,16 @@ class Text2Semantic(PreTrainedModel, GenerationMixin):
         """Reorder cached KV states for beam search.
 
         Args:
-            past_key_values: Cached states for all layers
+            past_key_values: Cached states for all layers (DynamicCache or tuple)
             beam_idx: Beam indices to select
 
         Returns:
             Reordered cache
         """
+        from transformers.cache_utils import DynamicCache
+        if isinstance(past_key_values, DynamicCache):
+            past_key_values.reorder_cache(beam_idx)
+            return past_key_values
         return tuple(
             tuple(
                 past_state.index_select(0, beam_idx.to(past_state.device))

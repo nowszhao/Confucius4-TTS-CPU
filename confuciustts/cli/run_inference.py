@@ -25,7 +25,7 @@ def parse_args():
                    help="Path to inference configuration YAML")
     p.add_argument("--t2s-checkpoint", type=str, default=None,
                    help="Override T2S checkpoint path from config")
-    p.add_argument("--device", type=str, default="cuda",
+    p.add_argument("--device", type=str, default="cuda" if torch.cuda.is_available() else "cpu",
                    help="Device for inference (cuda or cpu)")
     p.add_argument("--temperature", type=float, default=0.8,
                    help="Sampling temperature for T2S generation (higher = more diverse)")

@@ -1,0 +1,48 @@
+# ===== Virtual Environment =====
+venv/
+.venv/
+env/
+.env/
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+*.egg
+dist/
+build/
+
+# ===== Model Weights & Checkpoints (downloaded from HuggingFace) =====
+# These are large binary files not meant for git
+*.safetensors
+*.pt
+*.bin
+*.ckpt
+!checkpoints/tokenizer*
+!checkpoints/special_tokens_map.json
+
+# ===== Generated Audio =====
+*.wav
+*.mp3
+*.flac
+
+# ===== Examples & User Data =====
+examples/
+
+# ===== IDE & Editor =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ===== macOS =====
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ===== Cache & Temp =====
+*.log
+*.tmp
+.cache/

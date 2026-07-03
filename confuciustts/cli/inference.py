@@ -43,7 +43,7 @@ class ConfuciusTTS:
         self,
         config_path: str = "config/inference_config.yaml",
         t2s_checkpoint: Optional[str] = None,
-        device: str = "cuda",
+        device: str = "cuda" if torch.cuda.is_available() else "cpu",
     ):
         self.device = torch.device(device)
 
@@ -117,7 +117,9 @@ class ConfuciusTTS:
         Returns:
             Tuple of (wav_16k, wav_tgt) resampled to 16kHz and target sample rate
         """
-        wav, sr = torchaudio.load(prompt_wav)
+        import soundfile as sf
+        data, sr = sf.read(prompt_wav)
+        wav = torch.from_numpy(data).float().unsqueeze(0) if data.ndim == 1 else torch.from_numpy(data.T).float()
         if wav.shape[0] > 1:
             wav = wav.mean(dim=0, keepdim=True)
         wav_16k = wav if sr == 16000 else torchaudio.functional.resample(wav, sr, 16000)
@@ -356,7 +358,8 @@ def main():
     parser.add_argument("--output", type=str, required=True)
     parser.add_argument("--config", type=str, default="config/inference_config.yaml")
     parser.add_argument("--t2s_checkpoint", type=str, default=None)
-    parser.add_argument("--device", type=str, default="cuda" if torch.cuda.is_available() else "cpu")
+    parser.add_argument("--device", type=str, default="cuda" if torch.cuda.is_available() else "cpu",
+                        help="Device for inference (cuda or cpu)")
     parser.add_argument("--cross_fade_duration", type=float, default=0.3)
     parser.add_argument("--edge_fade_duration", type=float, default=0.1)
     parser.add_argument("--edge_pad_duration", type=float, default=0.1)
@@ -375,7 +378,9 @@ def main():
         edge_pad_duration=args.edge_pad_duration,
         verbose=args.verbose,
     )
-    torchaudio.save(args.output, audio.cpu(), model.sample_rate)
+    import soundfile as sf
+    audio_np = audio.cpu().squeeze(0).numpy()
+    sf.write(args.output, audio_np, model.sample_rate)
     print(f"Saved: {args.output}")
 
 
